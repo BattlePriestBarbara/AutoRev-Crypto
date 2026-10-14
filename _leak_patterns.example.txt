@@ -1,0 +1,50 @@
+# Redaction patterns for public-release checks  --  format:  <label>|<python-regex>
+#
+# TEMPLATE. Copy to `_leak_patterns.txt` and fill in your own target's real
+# values. `_leak_patterns.txt` is gitignored on purpose.
+#
+# Why the real values are not in the repository: a redaction checker that
+# hard-codes the secrets it checks for leaks them the moment the checker is
+# published. The rules below describe the *shape* of each check without carrying
+# a single real identifier.
+#
+# Rules already implemented by the scanner and needing no pattern here:
+#   * README internal anchors resolve to real headings
+#   * code fences are balanced (an unbalanced fence hides the rest of the file)
+#   * mermaid fences are present and paired
+#
+# Lines starting with '#' are comments. An empty or absent file is not an error;
+# the scan simply becomes a no-op, which is the correct behaviour for a
+# contributor who has no access to the real identifiers.
+
+# --- target identity -------------------------------------------------------
+# The application's package identifier, as it appears in a manifest.
+# target_package_name|<vendored.domain.app>
+
+# The product's marketing / human-readable name, including any non-ASCII form.
+# target_product_name|<human readable product name>
+
+# --- identifiers renamed by the publication's mapping ---------------------
+# Original JNI handler class, in both dotted and mangled forms.
+# jni_class_original|<com\.vendor\.module\.Handler>
+# jni_class_mangled_original|<Java_com_vendor_module_Handler>
+# Original shell / stub class that the packer registers methods against.
+# shell_class_original|<com\.vendor\.shell\.Stub>
+
+# --- absolute build paths (must become $PROJECT_ROOT-relative) -------------
+# abs_build_path|<D:\\build\\root>
+# abs_project_path|<D:\\research\\workdir>
+# abs_tool_path|<D:\\tooling\\>
+
+# --- cryptographic constants that fingerprint the exact build -------------
+# real_iv_hex|<32 hex chars>
+# real_iv_ascii|<16 printable chars>
+# real_peer_point_hex|<130 hex chars, 04 || X || Y>
+
+# --- artefacts that must never be published -------------------------------
+# real_apk_name|<target>.apk
+
+# --- generic: any real SHA-256 literal in a public document --------------
+# A placeholder is written as <NAME_SHA256_PLACEHOLDER>, so a bare 64-hex run is
+# always a finding.
+literal_sha256|(?<![A-Za-z0-9])[a-f0-9]{64}(?![A-Za-z0-9])

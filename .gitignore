@@ -1,0 +1,44 @@
+# ---- Build / toolchain artefacts (never committed) -------------------------
+tools/maven/
+tools/m2repo/
+tools/unidbg/
+tools/antifraud-unidbg/target/
+**/target/
+*.jar
+*.class
+__pycache__/
+*.py[cod]
+
+# ---- Research artefacts ---------------------------------------------------
+# Raw captures are large, environment-specific and may contain live identifiers.
+# Only the sanitized, reviewed artefacts belong in this repository.
+workspace/
+data/
+logs/
+artifacts/
+
+# ---- Device / emulator state ---------------------------------------------
+*.jsonl
+*.core
+*.dmp
+proc_*_maps.txt
+
+# ---- Editors / OS --------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini
+
+# ---- Local secrets (there should never be any) ---------------------------
+*.pem
+*.key
+*.p12
+.env
+
+# ---- Redaction rules -----------------------------------------------------
+# The real identifiers live here, outside version control, so that publishing a
+# redaction checker does not publish what it redacts. The committed template is
+# `_leak_patterns.example.txt`.
+_leak_patterns.txt
+SANITIZATION_AUDIT.md
